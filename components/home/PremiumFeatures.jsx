@@ -27,31 +27,30 @@ export default function PremiumFeatures() {
 
   return (
     <section className="bg-[#fff] py-16">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4">
 
-        <div className="bg-gradient-to-r from-red-800 to-[#4C0018] rounded-2xl px-10 py-6 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-red-800 to-[#4C0018] rounded-2xl p-6">
 
-          {features.map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 text-white flex-1 justify-center relative"
-            >
-              {/* Icon */}
-              <div className="text-white text-2xl">
-                {item.icon}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+            {features.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center gap-3 text-white text-center md:text-left"
+              >
+                {/* Icon */}
+                <div className="text-2xl">
+                  {item.icon}
+                </div>
+
+                {/* Text */}
+                <span className="text-sm md:text-md font-medium">
+                  {item.title}
+                </span>
               </div>
+            ))}
 
-              {/* Text */}
-              <span className="text-md font-medium">
-                {item.title}
-              </span>
-
-              {/* Divider */}
-              {index !== features.length - 1 && (
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 h-8 w-[1px] bg-white/50"></div>
-              )}
-            </div>
-          ))}
+          </div>
 
         </div>
 

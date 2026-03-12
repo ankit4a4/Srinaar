@@ -36,8 +36,8 @@ export default function Header() {
       <header
         className={`z-50 transition-all duration-500 ${
           scrolled
-            ? "fixed top-5 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4"
-            : "absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl"
+            ? "fixed top-5 left-1/2 -translate-x-1/2 w-full md:max-w-7xl px-4"
+            : "absolute top-0 left-1/2 -translate-x-1/2 w-full md:max-w-7xl"
         }`}
       >
         <div

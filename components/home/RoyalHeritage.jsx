@@ -20,11 +20,11 @@ export default function RoyalHeritage() {
         <div className="flex justify-end">
           <div className="text-center md:w-[60%] text-white ">
 
-            <h3 className="md:text-[100px] text-[#AC002E] font-serif mb-2">
+            <h3 className="text-[70px] md:text-[100px] text-[#AC002E] font-serif mb-2">
               Royal
             </h3>
 
-            <h2 className="text-[120px] font-serif leading-none mb-6">
+            <h2 className="text-[90px] md:text-[120px] font-serif leading-none mb-6">
               Heritage
             </h2>
 
