@@ -52,7 +52,7 @@ export default function NewArrivals() {
                 </div>
 
       {/* Red background bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-[280px] bg-gradient-to-r from-[#4C0018] to-[#4C0018]"></div>
+      <div className="absolute bottom-0 left-0 w-full h-[280px] bg-gradient-to-r from-[#990027] to-[#330113]"></div>
 
       {/* Cards */}
       <div className="relative max-w-6xl mx-auto grid md:grid-cols-3 gap-10 px-6">

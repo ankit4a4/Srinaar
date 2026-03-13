@@ -6,7 +6,7 @@ import heroImg from "../../assets/home/hero.png";
 export default function Hero() {
   return (
     <section
-      className="relative h-screen w-full flex items-center"
+      className="relative h-[500px] md:h-screen w-full flex items-center"
       style={{
         backgroundImage: `url(${heroImg.src})`,
         backgroundSize: "cover",

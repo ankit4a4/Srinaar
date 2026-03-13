@@ -7,7 +7,7 @@ import logo from "../../assets/logo.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#4C0018] py-20 text-white">
+    <footer className="bg-gradient-to-b from-[#990027] to-[#330113] py-20 text-white">
       
       <div className="max-w-4xl mx-auto text-center">
 

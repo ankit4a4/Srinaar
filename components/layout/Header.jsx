@@ -43,38 +43,31 @@ export default function Header() {
         <div
           className={`transition-all duration-500 ${
             scrolled
-              ? "bg-[#4C0018] rounded-2xl shadow-xl px-8 py-3"
+              ? "rounded-2xl shadow-xl px-8 py-3"
               : "bg-transparent px-6 py-5"
           }`}
+          style={
+            scrolled
+              ? { background: "linear-gradient(to bottom, #990027, #590c19)" }
+              : {}
+          }
         >
           {/* DESKTOP */}
 
-          <div className="hidden md:flex justify-between items-center">
+          <div className="hidden md:grid grid-cols-3 items-center">
             {/* LEFT */}
 
             <div className="flex items-center">
-              {scrolled ? (
-                <nav className="flex items-center gap-8 text-[15px] font-medium text-white">
-                  <a
-                    className={`${menuClass} after:bg-white`}
-                  >
-                    Home
-                  </a>
-                  <a className={`${menuClass} after:bg-white`}>Shop</a>
-                  <a className={`${menuClass} after:bg-white`}>Collections</a>
-                  <a className={`${menuClass} after:bg-white`}>Our Story</a>
-                  <a className={`${menuClass} after:bg-white`}>Contact</a>
-                </nav>
-              ) : (
-                <Image
-                  src={logo}
-                  alt="logo"
-                  className="w-[160px] h-auto object-contain"
-                />
-              )}
+              <nav className="flex items-center gap-7 text-[15px] font-medium text-white">
+                <a className={`${menuClass} after:bg-white`}>Home</a>
+                <a className={`${menuClass} after:bg-white`}>Shop</a>
+                <a className={`${menuClass} after:bg-white`}>Collections</a>
+                <a className={`${menuClass} after:bg-white`}>Our Story</a>
+                <a className={`${menuClass} after:bg-white`}>Contact</a>
+              </nav>
             </div>
 
-            {/* CENTER */}
+            {/* CENTER LOGO */}
 
             <div className="flex justify-center">
               {scrolled ? (
@@ -84,17 +77,11 @@ export default function Header() {
                   className="h-[50px] w-auto object-contain"
                 />
               ) : (
-                <nav className="flex items-center gap-10 text-[15px] font-medium text-white">
-                  <a className={`${menuClass} after:bg-[#ffffff]`}>Home</a>
-                  <a className={`${menuClass} after:bg-[#ffffff]`}>Shop</a>
-                  <a className={`${menuClass} after:bg-[#ffffff]`}>
-                    Collections
-                  </a>
-                  <a className={`${menuClass} after:bg-[#ffffff]`}>
-                    Our Story
-                  </a>
-                  <a className={`${menuClass} after:bg-[#ffffff]`}>Contact</a>
-                </nav>
+                <Image
+                  src={logo}
+                  alt="logo"
+                  className="w-[160px] h-auto object-contain"
+                />
               )}
             </div>
 
