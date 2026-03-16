@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
+import logo from "../../assets/logo2.png";
 
 export default function JoinSection() {
   return (
@@ -64,7 +65,7 @@ export default function JoinSection() {
               {/* Top Logo Area */}
               <div className="h-[112px] sm:h-[122px] bg-[#980022] flex items-center justify-center">
                 <div className="text-white font-serif text-[62px] leading-none">
-                  S
+                  <img src={logo.src} className="h-[70px]" alt="" />
                 </div>
               </div>
 
