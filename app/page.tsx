@@ -1,6 +1,5 @@
 import React from 'react'
-import Header from "../components/layout/Header"
-import Footer from "../components/layout/Footer"
+
 import Hero from "../components/home/Hero"
 import SignatureCollections from "../components/home/SignatureCollections"
 import RoyalHeritage from "../components/home/RoyalHeritage"
@@ -12,7 +11,6 @@ import JoinSection from "../components/home/JoinSection"
 const page = () => {
   return (
     <div>
-      <Header />
       <Hero />
       <SignatureCollections />
       <RoyalHeritage />
@@ -20,7 +18,6 @@ const page = () => {
       <PremiumFeatures />
       <TestimonialSlider />
       <JoinSection />
-      <Footer />
     </div>
   )
 }
