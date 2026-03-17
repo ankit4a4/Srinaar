@@ -18,56 +18,196 @@ import logo from "../../assets/logo.png";
 import logo2 from "../../assets/logo2.png";
 
 const menuItems = [
-  {
-    name: "Home",
-    link: "/",
-  },
-  {
-    name: "Shop",
-    link: "/shop",
-  },
+  { name: "Home", link: "/" },
+  { name: "Shop", link: "/shop" },
   {
     name: "Collections",
     key: "collections",
     dropdown: [
-      {
-        name: "Festive Lehenga",
-        link: "/collection/festive-lehenga",
-      },
-      {
-        name: "Palazzo Suit",
-        link: "/collection/palazzo-suit",
-      },
-      {
-        name: "Straight Suit",
-        link: "/collection/straight-suit",
-      },
-      {
-        name: "Anarkali Suit",
-        link: "/collection/anarkali-suit",
-      },
+      { name: "Festive Lehenga", link: "/collection/festive-lehenga" },
+      { name: "Palazzo Suit", link: "/collection/palazzo-suit" },
+      { name: "Straight Suit", link: "/collection/straight-suit" },
+      { name: "Anarkali Suit", link: "/collection/anarkali-suit" },
     ],
   },
-  {
-    name: "Our Story",
-    link: "/our-story",
-  },
-  {
-    name: "Contact",
-    link: "/contact",
-  },
+  { name: "Our Story", link: "/our-story" },
+  { name: "Contact", link: "/contact" },
 ];
 
 const profileOptions = [
-  {
-    name: "Login",
-    link: "/login",
-  },
-  {
-    name: "Signup",
-    link: "/signup",
-  },
+  { name: "Login", link: "/login" },
+  { name: "Signup", link: "/signup" },
 ];
+
+const menuClass =
+  "relative cursor-pointer after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:transition-all after:duration-300 hover:after:w-full";
+
+function DesktopDropdown({
+  item,
+  openDropdown,
+  setOpenDropdown,
+  textColor = "text-white",
+}) {
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setOpenDropdown(item.key)}
+      onMouseLeave={() => setOpenDropdown(null)}
+    >
+      <button
+        className={`${menuClass} after:bg-white flex items-center gap-1 ${textColor}`}
+      >
+        {item.name}
+      </button>
+
+      <div
+        className={`absolute top-full left-0 pt-4 transition-all duration-300 ${
+          openDropdown === item.key
+            ? "opacity-100 visible translate-y-0"
+            : "opacity-0 invisible translate-y-3"
+        }`}
+      >
+        <div className="min-w-[260px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+          {item.dropdown.map((dropItem, i) => (
+            <Link
+              key={i}
+              href={dropItem.link}
+              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
+            >
+              {dropItem.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProfileDropdown({ profileOpen, setProfileOpen }) {
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setProfileOpen(true)}
+      onMouseLeave={() => setProfileOpen(false)}
+    >
+      <button className="flex items-center gap-1 cursor-pointer">
+        <FiUser className="text-xl" />
+      </button>
+
+      <div
+        className={`absolute top-full right-0 pt-4 transition-all duration-300 ${
+          profileOpen
+            ? "opacity-100 visible translate-y-0"
+            : "opacity-0 invisible translate-y-3"
+        }`}
+      >
+        <div className="min-w-[190px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+          {profileOptions.map((item, index) => (
+            <Link
+              key={index}
+              href={item.link}
+              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DesktopNav({
+  openDropdown,
+  setOpenDropdown,
+  profileOpen,
+  setProfileOpen,
+  isTransparentState,
+}) {
+  return (
+    <div className="hidden md:flex items-center justify-between gap-6">
+      {/* LEFT */}
+      <div className="flex items-center gap-7 text-[15px] font-medium text-white">
+        {menuItems.map((item, index) =>
+          item.dropdown ? (
+            <DesktopDropdown
+              key={index}
+              item={item}
+              openDropdown={openDropdown}
+              setOpenDropdown={setOpenDropdown}
+            />
+          ) : (
+            <Link
+              key={index}
+              href={item.link}
+              className={`${menuClass} after:bg-white`}
+            >
+              {item.name}
+            </Link>
+          )
+        )}
+      </div>
+
+      {/* CENTER LOGO */}
+      <div className="shrink-0 flex justify-center">
+        <Link href="/">
+          <Image
+            src={isTransparentState ? logo : logo2}
+            alt="logo"
+            className={
+              isTransparentState
+                ? "w-[145px] h-auto object-contain"
+                : "h-[50px] w-auto object-contain"
+            }
+          />
+        </Link>
+      </div>
+
+      {/* RIGHT */}
+      <div className="flex items-center justify-end gap-5 text-white">
+        <div className="hidden lg:flex items-center border border-white/40 rounded-full px-4 py-1.5 w-[220px] transition-all duration-300 group focus-within:bg-white">
+          <input
+            placeholder="Search"
+            className="bg-transparent outline-none text-sm w-full text-white placeholder-white focus:text-black focus:placeholder-gray-500"
+          />
+          <FiSearch className="ml-2 text-white transition-colors duration-300 group-focus-within:text-black" />
+        </div>
+
+        <button className="group rounded-full border border-transparent p-2 transition-all duration-300 hover:border-white hover:bg-white hover:shadow-[0_0_0_3px_rgba(255,255,255,0.15)]">
+          <FiHeart className="text-xl text-white transition-colors duration-300 group-hover:text-[#990027]" />
+        </button>
+
+        <ProfileDropdown
+          profileOpen={profileOpen}
+          setProfileOpen={setProfileOpen}
+        />
+
+        <FiShoppingBag className="text-xl cursor-pointer" />
+      </div>
+    </div>
+  );
+}
+
+function MobileTopBar({ setMobileMenu, isTransparentState }) {
+  return (
+    <div className="flex md:hidden items-center justify-between text-white">
+      <FiMenu
+        className="text-2xl cursor-pointer"
+        onClick={() => setMobileMenu(true)}
+      />
+
+      <Link href="/">
+        <Image
+          src={isTransparentState ? logo : logo2}
+          alt="logo"
+          className="w-full h-[50px] object-contain"
+        />
+      </Link>
+
+      <FiShoppingBag className="text-xl" />
+    </div>
+  );
+}
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -79,329 +219,66 @@ export default function Header() {
 
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const isTransparentState = isHomePage && !scrolled;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 80);
     handleScroll();
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const menuClass = `relative cursor-pointer 
-  after:absolute after:left-0 after:-bottom-1 after:h-[2px] 
-  after:w-0 after:transition-all after:duration-300 
-  hover:after:w-full`;
-
-  const isTransparentState = isHomePage && !scrolled;
-  const isScrolledState = scrolled;
+  const headerPositionClass = scrolled
+    ? "fixed top-5 left-1/2 -translate-x-1/2 w-full z-50 px-4"
+    : isHomePage
+    ? "absolute top-0 left-0 w-full z-50"
+    : "relative w-full z-50";
 
   return (
     <>
-      <header
-        className={`z-50 transition-all duration-500 ${isScrolledState
-            ? "fixed top-5 left-1/2 -translate-x-1/2 w-full px-4"
-            : isHomePage
-              ? "absolute top-0 left-0 w-full"
-              : "relative w-full"
-          }`}
-      >
-        {isScrolledState ? (
-          <div
-            className="rounded-2xl shadow-xl py-3 transition-all duration-500"
-            style={{
-              background: "linear-gradient(to bottom, #990027, #590c19)",
-            }}
-          >
-            <div className="max-w-7xl mx-auto px-4 lg:px-6">
-              {/* DESKTOP */}
-              <div className="hidden md:flex items-center justify-between gap-6">
-                {/* LEFT */}
-                <div className="flex items-center gap-7 text-[15px] font-medium text-white">
-                  {menuItems.map((item, index) => {
-                    if (item.dropdown) {
-                      return (
-                        <div
-                          key={index}
-                          className="relative"
-                          onMouseEnter={() => setOpenDropdown(item.key)}
-                          onMouseLeave={() => setOpenDropdown(null)}
-                        >
-                          <button
-                            className={`${menuClass} after:bg-white flex items-center gap-1 text-white`}
-                          >
-                            {item.name}
-                          </button>
-
-                          <div
-                            className={`absolute top-full left-0 pt-4 transition-all duration-300 ${openDropdown === item.key
-                                ? "opacity-100 visible translate-y-0"
-                                : "opacity-0 invisible translate-y-3"
-                              }`}
-                          >
-                            <div className="min-w-[260px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                              {item.dropdown.map((dropItem, i) => (
-                                <Link
-                                  key={i}
-                                  href={dropItem.link}
-                                  className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
-                                >
-                                  {dropItem.name}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <Link
-                        key={index}
-                        href={item.link}
-                        className={`${menuClass} after:bg-white`}
-                      >
-                        {item.name}
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                {/* CENTER LOGO */}
-                <div className="shrink-0 flex justify-center">
-                  <Link href="/">
-
-
-
-                    <Image
-                      src={logo2}
-                      alt="logo"
-                      className="h-[50px] w-auto object-contain"
-                    />
-
-
-
-                  </Link>
-                </div>
-
-                {/* RIGHT */}
-                <div className="flex items-center justify-end gap-5 text-white">
-                  <div className="hidden lg:flex items-center border border-white/40 rounded-full px-4 py-1.5 w-[220px] transition-all duration-300 group focus-within:bg-white">
-                    <input
-                      placeholder="Search"
-                      className="bg-transparent outline-none text-sm w-full text-white placeholder-white focus:text-black focus:placeholder-gray-500"
-                    />
-                    <FiSearch className="ml-2 text-white transition-colors duration-300 group-focus-within:text-black" />
-                  </div>
-
-                  <button className="group rounded-full border border-transparent p-2 transition-all duration-300 hover:border-white hover:bg-white hover:shadow-[0_0_0_3px_rgba(255,255,255,0.15)]">
-                    <FiHeart className="text-xl text-white transition-colors duration-300 group-hover:text-[#990027]" />
-                  </button>
-
-                  {/* PROFILE DROPDOWN */}
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setProfileOpen(true)}
-                    onMouseLeave={() => setProfileOpen(false)}
-                  >
-                    <button className="flex items-center gap-1 cursor-pointer">
-                      <FiUser className="text-xl" />
-                    </button>
-
-                    <div
-                      className={`absolute top-full right-0 pt-4 transition-all duration-300 ${profileOpen
-                          ? "opacity-100 visible translate-y-0"
-                          : "opacity-0 invisible translate-y-3"
-                        }`}
-                    >
-                      <div className="min-w-[190px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                        {profileOptions.map((item, index) => (
-                          <Link
-                            key={index}
-                            href={item.link}
-                            className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <FiShoppingBag className="text-xl cursor-pointer" />
-                </div>
-              </div>
-
-              {/* MOBILE TOP BAR */}
-              <div className="flex md:hidden items-center justify-between text-white">
-                <FiMenu
-                  className="text-2xl cursor-pointer"
-                  onClick={() => setMobileMenu(true)}
-                />
-
-                <Link href="/">
-                  <Image
-                    src={logo2}
-                    alt="logo"
-                    className="w-full h-[50px] object-contain"
-                  />
-                </Link>
-
-                <FiShoppingBag className="text-xl" />
-              </div>
+      <header className={`transition-all duration-500 ${headerPositionClass}`}>
+        {scrolled ? (
+          <div className="max-w-7xl mx-auto rounded-2xl shadow-xl py-3 transition-all duration-500 bg-gradient-to-b from-[#990027] to-[#590c19]">
+            <div className="px-4 lg:px-6">
+              <DesktopNav
+                openDropdown={openDropdown}
+                setOpenDropdown={setOpenDropdown}
+                profileOpen={profileOpen}
+                setProfileOpen={setProfileOpen}
+                isTransparentState={false}
+              />
+              <MobileTopBar
+                setMobileMenu={setMobileMenu}
+                isTransparentState={false}
+              />
             </div>
           </div>
         ) : (
           <div
-            className={`transition-all duration-500 ${isTransparentState ? "bg-transparent py-5" : "py-4"
-              }`}
-            style={
+            className={`transition-all duration-500 ${
               isTransparentState
-                ? {}
-                : {
-                  background: "linear-gradient(to bottom, #990027, #590c19)",
-                }
-            }
+                ? "bg-transparent py-5"
+                : "bg-gradient-to-b from-[#990027] to-[#590c19] py-4"
+            }`}
           >
-            <div className={isTransparentState ? "max-w-7xl mx-auto px-4 lg:px-6" : "w-full"}>
-              <div className={isTransparentState ? "" : "max-w-7xl mx-auto px-4 lg:px-6"}>
-                {/* DESKTOP */}
-                <div className="hidden md:flex items-center justify-between gap-6">
-                  {/* LEFT */}
-                  <div className="flex items-center gap-7 text-[15px] font-medium text-white">
-                    {menuItems.map((item, index) => {
-                      if (item.dropdown) {
-                        return (
-                          <div
-                            key={index}
-                            className="relative"
-                            onMouseEnter={() => setOpenDropdown(item.key)}
-                            onMouseLeave={() => setOpenDropdown(null)}
-                          >
-                            <button
-                              className={`${menuClass} after:bg-white flex items-center gap-1 text-white`}
-                            >
-                              {item.name}
-                            </button>
-
-                            <div
-                              className={`absolute top-full left-0 pt-4 transition-all duration-300 ${openDropdown === item.key
-                                  ? "opacity-100 visible translate-y-0"
-                                  : "opacity-0 invisible translate-y-3"
-                                }`}
-                            >
-                              <div className="min-w-[260px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                                {item.dropdown.map((dropItem, i) => (
-                                  <Link
-                                    key={i}
-                                    href={dropItem.link}
-                                    className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
-                                  >
-                                    {dropItem.name}
-                                  </Link>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <Link
-                          key={index}
-                          href={item.link}
-                          className={`${menuClass} after:bg-white`}
-                        >
-                          {item.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-
-                  {/* CENTER LOGO */}
-                  <div className="shrink-0 flex justify-center">
-                    <Link href="/">
-                      <Image
-                        src={isTransparentState ? logo : logo2}
-                        alt="logo"
-                        className={
-                          isTransparentState
-                            ? "w-[145px] h-auto object-contain"
-                            : "h-[50px] w-auto object-contain"
-                        }
-                      />
-                    </Link>
-                  </div>
-
-                  {/* RIGHT */}
-                  <div className="flex items-center justify-end gap-5 text-white">
-                    <div className="hidden lg:flex items-center border border-white/40 rounded-full px-4 py-1.5 w-[220px] transition-all duration-300 group focus-within:bg-white">
-                      <input
-                        placeholder="Search"
-                        className="bg-transparent outline-none text-sm w-full text-white placeholder-white focus:text-black focus:placeholder-gray-500"
-                      />
-                      <FiSearch className="ml-2 text-white transition-colors duration-300 group-focus-within:text-black" />
-                    </div>
-
-                    <button className="group rounded-full border border-transparent p-2 transition-all duration-300 hover:border-white hover:bg-white hover:shadow-[0_0_0_3px_rgba(255,255,255,0.15)]">
-                      <FiHeart className="text-xl text-white transition-colors duration-300 group-hover:text-[#990027]" />
-                    </button>
-
-                    {/* PROFILE DROPDOWN */}
-                    <div
-                      className="relative"
-                      onMouseEnter={() => setProfileOpen(true)}
-                      onMouseLeave={() => setProfileOpen(false)}
-                    >
-                      <button className="flex items-center gap-1 cursor-pointer">
-                        <FiUser className="text-xl" />
-                      </button>
-
-                      <div
-                        className={`absolute top-full right-0 pt-4 transition-all duration-300 ${profileOpen
-                            ? "opacity-100 visible translate-y-0"
-                            : "opacity-0 invisible translate-y-3"
-                          }`}
-                      >
-                        <div className="min-w-[190px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                          {profileOptions.map((item, index) => (
-                            <Link
-                              key={index}
-                              href={item.link}
-                              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <FiShoppingBag className="text-xl cursor-pointer" />
-                  </div>
-                </div>
-
-                {/* MOBILE TOP BAR */}
-                <div className="flex md:hidden items-center justify-between text-white">
-                  <FiMenu
-                    className="text-2xl cursor-pointer"
-                    onClick={() => setMobileMenu(true)}
-                  />
-
-                  <Link href="/">
-                    <Image
-                      src={isTransparentState ? logo : logo2}
-                      alt="logo"
-                      className="w-full h-[50px] object-contain"
-                    />
-                  </Link>
-
-                  <FiShoppingBag className="text-xl" />
-                </div>
-              </div>
+            <div
+              className={
+                isTransparentState
+                  ? "max-w-7xl mx-auto px-4 lg:px-6"
+                  : "max-w-7xl mx-auto px-4 lg:px-6"
+              }
+            >
+              <DesktopNav
+                openDropdown={openDropdown}
+                setOpenDropdown={setOpenDropdown}
+                profileOpen={profileOpen}
+                setProfileOpen={setProfileOpen}
+                isTransparentState={isTransparentState}
+              />
+              <MobileTopBar
+                setMobileMenu={setMobileMenu}
+                isTransparentState={isTransparentState}
+              />
             </div>
           </div>
         )}
@@ -409,19 +286,21 @@ export default function Header() {
 
       {/* MOBILE MENU */}
       <div
-        className={`fixed inset-0 md:hidden z-[1000] transition-opacity duration-500 ${mobileMenu ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
+        className={`fixed inset-0 md:hidden z-[1000] transition-opacity duration-500 ${
+          mobileMenu ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
       >
         {/* OVERLAY */}
         <div
           className="absolute inset-0 bg-black/70"
           onClick={() => setMobileMenu(false)}
-        ></div>
+        />
 
         {/* DRAWER */}
         <div
-          className={`absolute top-0 left-0 h-full w-[80%] bg-[#4C0018] transform transition-transform duration-500 ${mobileMenu ? "translate-x-0" : "-translate-x-full"
-            }`}
+          className={`absolute top-0 left-0 h-full w-[80%] bg-[#4C0018] transform transition-transform duration-500 ${
+            mobileMenu ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
           {/* TOP */}
           <div className="flex items-center justify-between p-6 border-b border-white/20">
@@ -458,10 +337,11 @@ export default function Header() {
                     </button>
 
                     <div
-                      className={`grid transition-all duration-300 overflow-hidden ${mobileOpenDropdown === item.key
+                      className={`grid transition-all duration-300 overflow-hidden ${
+                        mobileOpenDropdown === item.key
                           ? "grid-rows-[1fr] pb-3"
                           : "grid-rows-[0fr]"
-                        }`}
+                      }`}
                     >
                       <div className="overflow-hidden">
                         <div className="ml-3 mt-1 flex flex-col gap-2 rounded-xl bg-white/5 p-3">
@@ -508,8 +388,9 @@ export default function Header() {
               </button>
 
               <div
-                className={`grid transition-all duration-300 overflow-hidden ${mobileProfileOpen ? "grid-rows-[1fr] pb-3" : "grid-rows-[0fr]"
-                  }`}
+                className={`grid transition-all duration-300 overflow-hidden ${
+                  mobileProfileOpen ? "grid-rows-[1fr] pb-3" : "grid-rows-[0fr]"
+                }`}
               >
                 <div className="overflow-hidden">
                   <div className="ml-3 mt-1 flex flex-col gap-2 rounded-xl bg-white/5 p-3">

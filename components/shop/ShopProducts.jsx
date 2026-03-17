@@ -1,293 +1,515 @@
 "use client";
 
-import { FiChevronDown } from "react-icons/fi";
+import { useMemo, useState } from "react";
+import { FiChevronDown, FiX } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
 
 const products = [
-    {
-        id: 1,
-        name: "Red Chanderi Ruby Radiance Lehenga",
-        category: "Festive Lehenga",
-        image:
-            "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 4,199",
-        oldPrice: "₹ 6,999",
-        rating: "4.8",
-        colors: ["#7a0f1d", "#2b0f12", "#caa27a"],
-    },
-    {
-        id: 2,
-        name: "Maroon Velvet Bridal Lehenga",
-        category: "Bridal Collection",
-        image:
-            "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 4,599",
-        oldPrice: "₹ 7,499",
-        rating: "4.8",
-        colors: ["#5c0d16", "#a32537", "#111"],
-    },
-    {
-        id: 3,
-        name: "Autumn Royal Wine Lehenga",
-        category: "Wedding Wear",
-        image:
-            "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 4,899",
-        oldPrice: "₹ 7,999",
-        rating: "4.8",
-        colors: ["#5b2a22", "#8d2235"],
-    },
-    {
-        id: 4,
-        name: "Polka Ruby Designer Lehenga",
-        category: "Party Wear",
-        image:
-            "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 3,999",
-        oldPrice: "₹ 6,599",
-        rating: "4.9",
-        colors: ["#111", "#a3172d"],
-    },
-    {
-        id: 5,
-        name: "Soft Brown Wedding Lehenga",
-        category: "Festive Lehenga",
-        image:
-            "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 4,299",
-        oldPrice: "₹ 7,199",
-        rating: "4.7",
-        colors: ["#9c7a60", "#e8ddd2"],
-    },
-    {
-        id: 6,
-        name: "Cream White Premium Lehenga",
-        category: "Wedding Wear",
-        image:
-            "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 5,199",
-        oldPrice: "₹ 8,499",
-        rating: "5.0",
-        colors: ["#f2efe9", "#ddd7ce"],
-    },
-    {
-        id: 7,
-        name: "Soft Yellow Festival Lehenga",
-        category: "Traditional Wear",
-        image:
-            "https://images.unsplash.com/photo-1495385794356-15371f348c31?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 3,899",
-        oldPrice: "₹ 6,499",
-        rating: "4.8",
-        colors: ["#cb9457", "#f4ddbf"],
-    },
-    {
-        id: 8,
-        name: "Classy White Designer Lehenga",
-        category: "Party Wear",
-        image:
-            "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 4,499",
-        oldPrice: "₹ 7,299",
-        rating: "4.8",
-        colors: ["#f5f5f5", "#c5a789"],
-    },
-    {
-        id: 9,
-        name: "Minimal Office Ethnic Set",
-        category: "Festive Lehenga",
-        image:
-            "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
-        discount: "40% OFF",
-        price: "₹ 4,099",
-        oldPrice: "₹ 6,899",
-        rating: "4.9",
-        colors: ["#efefef", "#d4b29d"],
-    },
+  {
+    id: 1,
+    name: "Red Chanderi Ruby Radiance Lehenga",
+    category: "Festive Lehenga",
+    image:
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 4199,
+    oldPrice: 6999,
+    rating: 4.8,
+    colors: ["#7a0f1d", "#2b0f12", "#caa27a"],
+    sizes: ["M", "L", "XL"],
+  },
+  {
+    id: 2,
+    name: "Maroon Velvet Bridal Lehenga",
+    category: "Bridal Collection",
+    image:
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 4599,
+    oldPrice: 7499,
+    rating: 4.8,
+    colors: ["#5c0d16", "#a32537", "#111"],
+    sizes: ["S", "M", "L"],
+  },
+  {
+    id: 3,
+    name: "Autumn Royal Wine Lehenga",
+    category: "Wedding Wear",
+    image:
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 4899,
+    oldPrice: 7999,
+    rating: 4.8,
+    colors: ["#5b2a22", "#8d2235"],
+    sizes: ["L", "XL"],
+  },
+  {
+    id: 4,
+    name: "Polka Ruby Designer Lehenga",
+    category: "Party Wear",
+    image:
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 3999,
+    oldPrice: 6599,
+    rating: 4.9,
+    colors: ["#111", "#a3172d"],
+    sizes: ["M", "XL"],
+  },
+  {
+    id: 5,
+    name: "Soft Brown Wedding Lehenga",
+    category: "Festive Lehenga",
+    image:
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 4299,
+    oldPrice: 7199,
+    rating: 4.7,
+    colors: ["#9c7a60", "#e8ddd2"],
+    sizes: ["S", "M", "XXL"],
+  },
+  {
+    id: 6,
+    name: "Cream White Premium Lehenga",
+    category: "Wedding Wear",
+    image:
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 5199,
+    oldPrice: 8499,
+    rating: 5.0,
+    colors: ["#f2efe9", "#ddd7ce"],
+    sizes: ["L", "XL", "XXL"],
+  },
+  {
+    id: 7,
+    name: "Soft Yellow Festival Lehenga",
+    category: "Traditional Wear",
+    image:
+      "https://images.unsplash.com/photo-1495385794356-15371f348c31?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 3899,
+    oldPrice: 6499,
+    rating: 4.8,
+    colors: ["#cb9457", "#f4ddbf"],
+    sizes: ["S", "M"],
+  },
+  {
+    id: 8,
+    name: "Classy White Designer Lehenga",
+    category: "Party Wear",
+    image:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 4499,
+    oldPrice: 7299,
+    rating: 4.8,
+    colors: ["#f5f5f5", "#c5a789"],
+    sizes: ["M", "L"],
+  },
+  {
+    id: 9,
+    name: "Minimal Office Ethnic Set",
+    category: "Festive Lehenga",
+    image:
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
+    discount: "40% OFF",
+    price: 4099,
+    oldPrice: 6899,
+    rating: 4.9,
+    colors: ["#efefef", "#d4b29d"],
+    sizes: ["S", "M", "L"],
+  },
 ];
 
-const colors = [
-    { name: "", value: "#111" },
-    { name: "", value: "#6b4b3e" },
-    { name: "", value: "#888" },
-    { name: "", value: "#c93b3b" },
-    { name: "", value: "#6d8c57" },
-    { name: "", value: "#4c70c1" },
-    { name: "", value: "#ef8fbe" },
+const categoryOptions = [
+  "Festive Lehenga",
+  "Bridal Collection",
+  "Wedding Wear",
+  "Party Wear",
+  "Traditional Wear",
 ];
 
-const sizes = ["S", "M", "L", "XL", "XXL"];
+const colorOptions = [
+  { name: "Black", value: "#111" },
+  { name: "Brown", value: "#6b4b3e" },
+  { name: "Grey", value: "#888" },
+  { name: "Red", value: "#c93b3b" },
+  { name: "Olive", value: "#6d8c57" },
+  { name: "Blue", value: "#4c70c1" },
+  { name: "Pink", value: "#ef8fbe" },
+  { name: "White", value: "#f5f5f5" },
+  { name: "Cream", value: "#f2efe9" },
+];
+
+const sizeOptions = ["S", "M", "L", "XL", "XXL"];
+
+const MAX_PRICE = 9999;
 
 export default function ShopProducts() {
-    return (
-        <section className="bg-white min-h-screen text-[#222]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10">
-                    {/* LEFT FILTER */}
-                    <aside className="lg:sticky lg:top-24 h-fit">
-                        <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
-                            <h3 className="text-[15px] font-medium">Filter Options</h3>
-                        </div>
+  const [filters, setFilters] = useState({
+    categories: ["Festive Lehenga"],
+    colors: [],
+    sizes: ["M"],
+    maxPrice: 9999,
+    sortBy: "featured",
+  });
 
-                        {/* CATEGORY */}
-                        <div className="mb-8">
-                            <h4 className="text-[14px] font-semibold mb-4">Category</h4>
-                            <div className="space-y-3 text-[13px] text-gray-600">
-                                {["All", "Women", "Fashion", "Jackets", "Tops", "Dresses"].map(
-                                    (item, index) => (
-                                        <label
-                                            key={index}
-                                            className="flex items-center gap-3 cursor-pointer"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                className="accent-[#8b5e3c] h-3.5 w-3.5"
-                                                defaultChecked={item === "All"}
-                                            />
-                                            <span>{item}</span>
-                                        </label>
-                                    )
-                                )}
-                            </div>
-                        </div>
+  const toggleArrayValue = (key, value) => {
+    setFilters((prev) => {
+      const exists = prev[key].includes(value);
 
-                        {/* PRICE */}
-                        <div className="mb-8">
-                            <h4 className="text-[14px] font-semibold mb-4">Price</h4>
-                            <div className="px-1">
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="1000"
-                                    defaultValue="300"
-                                    className="w-full accent-[#8b5e3c]"
-                                />
-                                <div className="flex items-center justify-between text-[12px] text-gray-500 mt-2">
-                                    <span>₹999</span>
-                                    <span>₹9,999</span>
-                                </div>
-                            </div>
-                        </div>
+      return {
+        ...prev,
+        [key]: exists
+          ? prev[key].filter((item) => item !== value)
+          : [...prev[key], value],
+      };
+    });
+  };
 
-                        {/* COLOR */}
-                        <div className="mb-8">
-                            <h4 className="text-[14px] font-semibold mb-4">Color</h4>
-                            <div className="flex items-center flex-wrap gap-3 text-[13px]">
-                                {colors.map((color, index) => (
-                                    <label
-                                        key={index}
-                                        className="flex items-center justify-center cursor-pointer"
-                                    >
-                                        <span
-                                            className="w-5 h-5 rounded-full border border-gray-300"
-                                            style={{ backgroundColor: color.value }}
-                                        ></span>
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
+  const removeFilterChip = (type, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [type]: prev[type].filter((item) => item !== value),
+    }));
+  };
 
-                        {/* SIZE */}
-                        <div>
-                            <h4 className="text-[14px] font-semibold mb-4">Size</h4>
-                            <div className="space-y-3 text-[13px] text-gray-600">
-                                {sizes.map((size, index) => (
-                                    <label
-                                        key={index}
-                                        className="flex items-center gap-3 cursor-pointer"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            className="accent-[#8b5e3c] h-3.5 w-3.5"
-                                        />
-                                        <span>{size}</span>
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                    </aside>
+  const clearAllFilters = () => {
+    setFilters({
+      categories: [],
+      colors: [],
+      sizes: [],
+      maxPrice: MAX_PRICE,
+      sortBy: "featured",
+    });
+  };
 
-                    {/* RIGHT CONTENT */}
-                    <div>
-                        {/* TOP BAR */}
-                        <div className="flex gap-4 mb-8">
-                            <div className="flex w-full items-center justify-center gap-2 text-[12px]">
-                                <h1 className="text-[#4E0918] text-4xl text-center">
-                                    Showing 1-9 of 54 results
-                                </h1>
-                            </div>
-                        </div>
+  const filteredProducts = useMemo(() => {
+    let updatedProducts = [...products];
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
-                            {products.map((product) => (
-                                <Link
-                                    key={product.id}
-                                    href={`/singleproduct/${product.id}`}
-                                    className="group block"
-                                >
-                                    <div className="bg-white">
+    if (filters.categories.length > 0) {
+      updatedProducts = updatedProducts.filter((product) =>
+        filters.categories.includes(product.category)
+      );
+    }
 
-                                        {/* IMAGE */}
-                                        <div className="relative aspect-[3/4] overflow-hidden bg-[#f7f2ed]">
-                                            <Image
-                                                src={product.image}
-                                                alt={product.name}
-                                                fill
-                                                className="object-cover group-hover:scale-[1.03] transition duration-500"
-                                            />
-                                        </div>
+    if (filters.colors.length > 0) {
+      updatedProducts = updatedProducts.filter((product) =>
+        product.colors.some((color) => filters.colors.includes(color))
+      );
+    }
 
-                                        {/* CONTENT */}
-                                        <div className="pt-3">
+    if (filters.sizes.length > 0) {
+      updatedProducts = updatedProducts.filter((product) =>
+        product.sizes.some((size) => filters.sizes.includes(size))
+      );
+    }
 
-                                            {/* TITLE */}
-                                            <h3 className="text-[13px] leading-[1.35] font-medium text-[#2a1d18]">
-                                                {product.name}
-                                            </h3>
-
-                                            {/* CATEGORY */}
-                                            <p className="mt-1 text-[11px] text-[#9b9189]">
-                                                {product.category}
-                                            </p>
-
-                                            {/* PRICE ROW */}
-                                            <div className="mt-2 bg-amber-400 flex items-center gap-2 flex-wrap">
-
-                                                <span className="text-[18px] font-medium text-[#1b1b1b]">
-                                                    {product.price}
-                                                </span>
-
-                                                <span className="text-[11px] text-[#9a9a9a] line-through">
-                                                    MRP {product.oldPrice}
-                                                </span>
-
-                                                {/* DISCOUNT */}
-                                               <span
-                                                style={{
-                                                    backgroundColor : "#8c0f24"
-                                                }}
-                                               className="ml-1 inline-flex items-center border border-2  text-white text-[9px] font-semibold px-2 py-[3px] rounded-full">
-  {product.discount}
-</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    updatedProducts = updatedProducts.filter(
+      (product) => product.price <= filters.maxPrice
     );
+
+    if (filters.sortBy === "price-low-high") {
+      updatedProducts.sort((a, b) => a.price - b.price);
+    } else if (filters.sortBy === "price-high-low") {
+      updatedProducts.sort((a, b) => b.price - a.price);
+    } else if (filters.sortBy === "name-a-z") {
+      updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (filters.sortBy === "rating") {
+      updatedProducts.sort((a, b) => b.rating - a.rating);
+    }
+
+    return updatedProducts;
+  }, [filters]);
+
+  const activeFilterChips = [
+    ...filters.categories.map((item) => ({
+      type: "categories",
+      label: item,
+      value: item,
+    })),
+    ...filters.sizes.map((item) => ({
+      type: "sizes",
+      label: item,
+      value: item,
+    })),
+    ...filters.colors.map((item) => ({
+      type: "colors",
+      label:
+        colorOptions.find((color) => color.value === item)?.name || "Color",
+      value: item,
+      color: item,
+    })),
+  ];
+
+  return (
+    <section className="min-h-screen bg-white text-[#222]">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[260px_1fr]">
+          {/* LEFT FILTER */}
+          <aside className="h-fit lg:sticky lg:top-24">
+            <div className="mb-6 flex items-center justify-between border-b border-gray-200 pb-4">
+              <h3 className="text-[15px] font-medium text-[#2a1d18]">
+                Filter Options
+              </h3>
+            </div>
+
+            {/* CATEGORY */}
+            <div className="mb-8">
+              <h4 className="mb-4 text-[14px] font-semibold text-[#2a1d18]">
+                Category
+              </h4>
+              <div className="space-y-3 text-[13px] text-gray-600">
+                {categoryOptions.map((item) => (
+                  <label
+                    key={item}
+                    className="flex cursor-pointer items-center gap-3"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={filters.categories.includes(item)}
+                      onChange={() => toggleArrayValue("categories", item)}
+                      className="h-4 w-4 accent-[#8b5e3c]"
+                    />
+                    <span>{item}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* PRICE */}
+            <div className="mb-8">
+              <h4 className="mb-4 text-[14px] font-semibold text-[#2a1d18]">
+                Price
+              </h4>
+              <div className="px-1">
+                <input
+                  type="range"
+                  min="999"
+                  max={MAX_PRICE}
+                  step="100"
+                  value={filters.maxPrice}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      maxPrice: Number(e.target.value),
+                    }))
+                  }
+                  className="w-full accent-[#8b5e3c]"
+                />
+                <div className="mt-3 flex items-center justify-between text-[12px] text-gray-500">
+                  <span>₹999</span>
+                  <span>Up to ₹{filters.maxPrice.toLocaleString("en-IN")}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* COLOR */}
+            <div className="mb-8">
+              <h4 className="mb-4 text-[14px] font-semibold text-[#2a1d18]">
+                Color
+              </h4>
+              <div className="flex flex-wrap items-center gap-3">
+                {colorOptions.map((color) => {
+                  const active = filters.colors.includes(color.value);
+
+                  return (
+                    <button
+                      key={color.value}
+                      type="button"
+                      onClick={() => toggleArrayValue("colors", color.value)}
+                      title={color.name}
+                      className={`flex h-7 w-7 items-center justify-center rounded-full border transition ${
+                        active
+                          ? "border-[#8b5e3c] ring-2 ring-[#d9c1ab]"
+                          : "border-gray-300"
+                      }`}
+                    >
+                      <span
+                        className="h-5 w-5 rounded-full border border-black/10"
+                        style={{ backgroundColor: color.value }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* SIZE */}
+            <div>
+              <h4 className="mb-4 text-[14px] font-semibold text-[#2a1d18]">
+                Size
+              </h4>
+              <div className="space-y-3 text-[13px] text-gray-600">
+                {sizeOptions.map((size) => (
+                  <label
+                    key={size}
+                    className="flex cursor-pointer items-center gap-3"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={filters.sizes.includes(size)}
+                      onChange={() => toggleArrayValue("sizes", size)}
+                      className="h-4 w-4 accent-[#8b5e3c]"
+                    />
+                    <span>{size}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          {/* RIGHT CONTENT */}
+          <div>
+            {/* TOP BAR */}
+            <div className="mb-8 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+              {/* Left Side Active Filters */}
+            
+
+              {/* Right Side Sort */}
+              <div className="flex justify-between items-center gap-2">
+
+                  <div className="flex flex-wrap items-center gap-2">
+                {activeFilterChips.length > 0 ? (
+                  <>
+                    {activeFilterChips.map((chip, index) => (
+                      <button
+                        key={`${chip.type}-${chip.value}-${index}`}
+                        type="button"
+                        onClick={() => removeFilterChip(chip.type, chip.value)}
+                        className="inline-flex items-center gap-2 border border-[#d8d2c4] bg-[#ece7db] px-3 py-2 text-[12px] text-[#2d2d2d]"
+                      >
+                        {chip.color && (
+                          <span
+                            className="h-3 w-3 rounded-full border border-black/10"
+                            style={{ backgroundColor: chip.color }}
+                          />
+                        )}
+                        <span>{chip.label}</span>
+                        <FiX className="text-[12px]" />
+                      </button>
+                    ))}
+
+                    <button
+                      type="button"
+                      onClick={clearAllFilters}
+                      className="text-[12px] font-medium text-[#2d2d2d] underline underline-offset-2"
+                    >
+                      Clear all
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-[12px] text-[#6b6b6b]">
+                    No filters selected
+                  </span>
+                )}
+              </div>
+
+
+                <div className="relative">
+                <span className="text-[12px] text-[#6b6b6b] ">Sort by</span>
+
+                  <select
+                    value={filters.sortBy}
+                    onChange={(e) =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        sortBy: e.target.value,
+                      }))
+                    }
+                    className="appearance-none ml-3 border border-[#d8d2c4] bg-[#ece7db] px-4 py-2 pr-9 text-[12px] text-[#2d2d2d] outline-none"
+                  >
+                    <option value="featured">Featured</option>
+                    <option value="price-low-high">Price: Low to High</option>
+                    <option value="price-high-low">Price: High to Low</option>
+                    <option value="name-a-z">Name: A to Z</option>
+                    <option value="rating">Top Rated</option>
+                  </select>
+
+                 
+                </div>
+              </div>
+            </div>
+
+            {/* PRODUCT COUNT */}
+          
+
+            {/* PRODUCTS */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3">
+              {filteredProducts.map((product) => (
+                <Link
+                  key={product.id}
+                  href={`/singleproduct/${product.id}`}
+                  className="group block"
+                >
+                  <div className="bg-white">
+                    {/* IMAGE */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-[#f7f2ed]">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                      />
+                    </div>
+
+                    {/* CONTENT */}
+                    <div className="pt-5">
+                      <h3 className="text-[13px] font-medium leading-[1.35] text-[#2a1d18]">
+                        {product.name}
+                      </h3>
+
+                      <p className="mt-1 text-[11px] text-[#9b9189]">
+                        {product.category}
+                      </p>
+
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <span className="text-[18px] font-medium text-[#1b1b1b]">
+                          ₹ {product.price.toLocaleString("en-IN")}
+                        </span>
+
+                        <span className="text-[11px] text-[#9a9a9a] line-through">
+                          MRP ₹ {product.oldPrice.toLocaleString("en-IN")}
+                        </span>
+
+                        <span
+                        style={{
+                            background : "#8c0f24"
+                        }}
+                         className="ml-1 inline-flex items-center rounded-full border border-[#8c0f24] bg-[#8c0f24] px-2 py-[3px] text-[9px] font-semibold text-white">
+                          {product.discount}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {filteredProducts.length === 0 && (
+              <div className="py-16 text-center">
+                <h3 className="text-lg font-medium text-[#2a1d18]">
+                  No products found
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Try changing your filters or clear all filters.
+                </p>
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="mt-4 border border-[#d8d2c4] bg-[#ece7db] px-4 py-2 text-[12px] text-[#2d2d2d]"
+                >
+                  Clear all filters
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
