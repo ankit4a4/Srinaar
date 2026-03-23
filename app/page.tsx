@@ -25,6 +25,8 @@ const page = () => {
       <TestimonialSlider />
       <RecentlyViewed />
       <JoinSection />
+      <TopMarquee />
+
     </div>
   )
 }

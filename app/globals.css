@@ -1,12 +1,7 @@
 @import "tailwindcss";
 
-* {
-  box-sizing: border-box;
-}
 
-body {
-    color: black;
-}
+
 
 /* ////////////////////// BUTTON BASE ////////////////////// */
 button {

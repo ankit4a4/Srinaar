@@ -26,7 +26,7 @@ export default function PremiumFeatures() {
   ];
 
   return (
-    <section className="bg-[#fff] py-16">
+    <section className=" py-16">
       <div className="max-w-6xl mx-auto px-4">
 
         <div className="bg-gradient-to-r from-red-800 to-[#4C0018] rounded-2xl p-6">

@@ -37,10 +37,10 @@ const reviews = [
 
 export default function TestimonialSlider() {
   return (
-    <section className="bg-[#fff] py-16 md:py-20 px-4 sm:px-6">
+    <section className="py-16 md:py-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
-        {/* Heading */}
         <p className="text-[#4C0018] text-sm mb-2">Testimonial</p>
+
         <h2 className="text-3xl sm:text-4xl md:text-5xl italic text-[#4C0018] mb-8 md:mb-10">
           What Our Clients Say
         </h2>
@@ -49,14 +49,17 @@ export default function TestimonialSlider() {
           modules={[Autoplay, Pagination]}
           slidesPerView={1}
           spaceBetween={30}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           autoHeight={false}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
         >
           {reviews.map((review) => (
             <SwiperSlide key={review.id}>
-              <div className="bg-[#efe9df] rounded-xl p-5 sm:p-6 md:p-10 flex flex-col md:flex-row items-center gap-6 md:gap-10 min-h-[460px] sm:min-h-[430px] md:min-h-[320px] overflow-hidden">
-                {/* Image */}
+              <div className="bg-[#fff] rounded-xl p-5 sm:p-6 md:p-10 flex flex-col md:flex-row items-center gap-6 md:gap-10 min-h-[460px] sm:min-h-[430px] md:min-h-[320px] overflow-hidden">
                 <div className="w-[160px] h-[200px] sm:w-[180px] sm:h-[220px] relative flex-shrink-0">
                   <Image
                     src={review.image}
@@ -66,7 +69,6 @@ export default function TestimonialSlider() {
                   />
                 </div>
 
-                {/* Content */}
                 <div className="w-full max-w-xl text-center md:text-left">
                   <div className="font-semibold mb-3 text-[#4C0018]">
                     {review.rating}

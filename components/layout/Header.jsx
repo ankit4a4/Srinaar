@@ -47,6 +47,7 @@ function DesktopDropdown({
   openDropdown,
   setOpenDropdown,
   textColor = "text-white",
+  underlineColor = "after:bg-white",
 }) {
   return (
     <div
@@ -55,7 +56,7 @@ function DesktopDropdown({
       onMouseLeave={() => setOpenDropdown(null)}
     >
       <button
-        className={`${menuClass} after:bg-white flex items-center gap-1 ${textColor}`}
+        className={`${menuClass} ${underlineColor} flex items-center gap-1 ${textColor}`}
       >
         {item.name}
       </button>
@@ -67,12 +68,12 @@ function DesktopDropdown({
             : "opacity-0 invisible translate-y-3"
         }`}
       >
-        <div className="min-w-[260px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+        <div className="min-w-[260px] rounded-2xl border border-black/10 bg-white p-3 shadow-[0_15px_40px_rgba(0,0,0,0.18)]">
           {item.dropdown.map((dropItem, i) => (
             <Link
               key={i}
               href={dropItem.link}
-              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
+              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-[#111] transition-all duration-300 hover:bg-[#f6f6f6] hover:pl-5"
             >
               {dropItem.name}
             </Link>
@@ -83,7 +84,11 @@ function DesktopDropdown({
   );
 }
 
-function ProfileDropdown({ profileOpen, setProfileOpen }) {
+function ProfileDropdown({
+  profileOpen,
+  setProfileOpen,
+  iconColor = "text-white",
+}) {
   return (
     <div
       className="relative"
@@ -91,7 +96,7 @@ function ProfileDropdown({ profileOpen, setProfileOpen }) {
       onMouseLeave={() => setProfileOpen(false)}
     >
       <button className="flex items-center gap-1 cursor-pointer">
-        <FiUser className="text-xl" />
+        <FiUser className={`text-xl ${iconColor}`} />
       </button>
 
       <div
@@ -101,12 +106,12 @@ function ProfileDropdown({ profileOpen, setProfileOpen }) {
             : "opacity-0 invisible translate-y-3"
         }`}
       >
-        <div className="min-w-[190px] rounded-2xl border border-white/10 bg-gradient-to-b from-[#990027] to-[#590c19] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+        <div className="min-w-[190px] rounded-2xl border border-black/10 bg-white p-3 shadow-[0_15px_40px_rgba(0,0,0,0.18)]">
           {profileOptions.map((item, index) => (
             <Link
               key={index}
               href={item.link}
-              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-white/10 hover:pl-5"
+              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-[#111] transition-all duration-300 hover:bg-[#f6f6f6] hover:pl-5"
             >
               {item.name}
             </Link>
@@ -135,12 +140,14 @@ function DesktopNav({
               item={item}
               openDropdown={openDropdown}
               setOpenDropdown={setOpenDropdown}
+              textColor="text-white"
+              underlineColor="after:bg-white"
             />
           ) : (
             <Link
               key={index}
               href={item.link}
-              className={`${menuClass} after:bg-white`}
+              className={`${menuClass} after:bg-white text-white`}
             >
               {item.name}
             </Link>
@@ -159,6 +166,7 @@ function DesktopNav({
                 ? "w-[145px] h-auto object-contain"
                 : "h-[50px] w-auto object-contain"
             }
+            priority
           />
         </Link>
       </div>
@@ -180,9 +188,10 @@ function DesktopNav({
         <ProfileDropdown
           profileOpen={profileOpen}
           setProfileOpen={setProfileOpen}
+          iconColor="text-white"
         />
 
-        <FiShoppingBag className="text-xl cursor-pointer" />
+        <FiShoppingBag className="text-xl cursor-pointer text-white" />
       </div>
     </div>
   );
@@ -201,10 +210,37 @@ function MobileTopBar({ setMobileMenu, isTransparentState }) {
           src={isTransparentState ? logo : logo2}
           alt="logo"
           className="w-full h-[50px] object-contain"
+          priority
         />
       </Link>
 
       <FiShoppingBag className="text-xl" />
+    </div>
+  );
+}
+
+function HeaderContent({
+  openDropdown,
+  setOpenDropdown,
+  profileOpen,
+  setProfileOpen,
+  setMobileMenu,
+  isTransparentState,
+}) {
+  return (
+    <div className="px-4 lg:px-6">
+      <DesktopNav
+        openDropdown={openDropdown}
+        setOpenDropdown={setOpenDropdown}
+        profileOpen={profileOpen}
+        setProfileOpen={setProfileOpen}
+        isTransparentState={isTransparentState}
+      />
+
+      <MobileTopBar
+        setMobileMenu={setMobileMenu}
+        isTransparentState={isTransparentState}
+      />
     </div>
   );
 }
@@ -222,67 +258,67 @@ export default function Header() {
   const isTransparentState = isHomePage && !scrolled;
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 80);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 80);
+    };
+
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const headerPositionClass = scrolled
-    ? "fixed top-5 left-1/2 -translate-x-1/2 w-full z-50 px-4"
-    : isHomePage
-    ? "absolute top-0 left-0 w-full z-50"
-    : "relative w-full z-50";
-
   return (
     <>
-      <header className={`transition-all duration-500 ${headerPositionClass}`}>
-        {scrolled ? (
-          <div className="max-w-7xl mx-auto rounded-2xl shadow-xl py-3 transition-all duration-500 bg-gradient-to-b from-[#990027] to-[#590c19]">
-            <div className="px-4 lg:px-6">
-              <DesktopNav
-                openDropdown={openDropdown}
-                setOpenDropdown={setOpenDropdown}
-                profileOpen={profileOpen}
-                setProfileOpen={setProfileOpen}
-                isTransparentState={false}
-              />
-              <MobileTopBar
-                setMobileMenu={setMobileMenu}
-                isTransparentState={false}
-              />
-            </div>
+      {/* NORMAL HEADER */}
+      <header
+        className={
+          isHomePage
+            ? "absolute top-0 left-0 w-full z-40"
+            : "relative w-full z-40"
+        }
+      >
+        <div
+          className={`${
+            isTransparentState
+              ? "bg-transparent py-5"
+              : "bg-gradient-to-b from-[#990027] to-[#590c19] py-4"
+          }`}
+        >
+          <div className="max-w-7xl mx-auto">
+            <HeaderContent
+              openDropdown={openDropdown}
+              setOpenDropdown={setOpenDropdown}
+              profileOpen={profileOpen}
+              setProfileOpen={setProfileOpen}
+              setMobileMenu={setMobileMenu}
+              isTransparentState={isTransparentState}
+            />
           </div>
-        ) : (
-          <div
-            className={`transition-all duration-500 ${
-              isTransparentState
-                ? "bg-transparent py-5"
-                : "bg-gradient-to-b from-[#990027] to-[#590c19] py-4"
-            }`}
-          >
-            <div
-              className={
-                isTransparentState
-                  ? "max-w-7xl mx-auto px-4 lg:px-6"
-                  : "max-w-7xl mx-auto px-4 lg:px-6"
-              }
-            >
-              <DesktopNav
-                openDropdown={openDropdown}
-                setOpenDropdown={setOpenDropdown}
-                profileOpen={profileOpen}
-                setProfileOpen={setProfileOpen}
-                isTransparentState={isTransparentState}
-              />
-              <MobileTopBar
-                setMobileMenu={setMobileMenu}
-                isTransparentState={isTransparentState}
-              />
-            </div>
-          </div>
-        )}
+        </div>
       </header>
+
+      {/* SCROLL HEADER */}
+      <div className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+        <div
+          className={`px-4 pt-4 transition-all duration-500 ease-out ${
+            scrolled
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-[140%] opacity-0"
+          }`}
+        >
+          <div className="max-w-7xl mx-auto pointer-events-auto rounded-2xl bg-gradient-to-b from-[#990027] to-[#590c19] shadow-[0_10px_40px_rgba(0,0,0,0.20)] py-3">
+            <HeaderContent
+              openDropdown={openDropdown}
+              setOpenDropdown={setOpenDropdown}
+              profileOpen={profileOpen}
+              setProfileOpen={setProfileOpen}
+              setMobileMenu={setMobileMenu}
+              isTransparentState={false}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* MOBILE MENU */}
       <div

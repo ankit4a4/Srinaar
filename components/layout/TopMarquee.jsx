@@ -1,5 +1,7 @@
 "use client";
 
+import { FaStar } from "react-icons/fa6";
+
 export default function TopOfferBar() {
   const offers = [
     "Get 20% OFF on your first order",
@@ -20,8 +22,8 @@ export default function TopOfferBar() {
               key={i}
               className="flex items-center shrink-0 whitespace-nowrap py-[6px] text-[12px] sm:text-[13px] font-medium text-white tracking-wide"
             >
-              <span className="mx-6">{text}</span>
-              <span className="text-white">*</span>
+              <span className="mx-6 text-lg">{text}</span>
+              <p className="text-white "><FaStar size={15} /></p>
             </div>
           ))}
 
@@ -30,8 +32,8 @@ export default function TopOfferBar() {
               key={`dup-${i}`}
               className="flex items-center shrink-0 whitespace-nowrap py-[6px] text-[12px] sm:text-[13px] font-medium text-white tracking-wide"
             >
-              <span className="mx-6">{text}</span>
-              <span className="text-white">*</span>
+              <span className="mx-6 text-lg">{text}</span>
+              <p className="text-white "><FaStar size={15} /></p>
             </div>
           ))}
         </div>
