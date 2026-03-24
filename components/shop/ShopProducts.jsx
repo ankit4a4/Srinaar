@@ -443,7 +443,7 @@ export default function ShopProducts() {
                 >
                   <div className="overflow-hidden rounded-[20px]">
                     {/* Image Wrapper */}
-                    <div className="relative h-[240px] overflow-hidden rounded-[20px] bg-[#f6f1ed] sm:h-[300px] lg:h-[335px]">
+                    <div className="relative h-[350px] md:h-[240px] overflow-hidden rounded-[20px] bg-[#f6f1ed] sm:h-[300px] lg:h-[335px]">
                       <Image
                         src={product.image}
                         alt={product.name}

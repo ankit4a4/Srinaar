@@ -39,6 +39,12 @@ const profileOptions = [
   { name: "Signup", link: "/signup" },
 ];
 
+// Icon links array - sab links yahan se manage honge
+const iconLinks = {
+  wishlist: "/wishlist",
+  cart: "/cart",
+};
+
 const menuClass =
   "relative cursor-pointer after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:transition-all after:duration-300 hover:after:w-full";
 
@@ -95,29 +101,13 @@ function ProfileDropdown({
       onMouseEnter={() => setProfileOpen(true)}
       onMouseLeave={() => setProfileOpen(false)}
     >
-      <button className="flex items-center gap-1 cursor-pointer">
-        <FiUser className={`text-xl ${iconColor}`} />
-      </button>
+      <Link href="/profile">
+        <button className="flex items-center gap-1 cursor-pointer">
+          <FiUser className={`text-xl ${iconColor}`} />
+        </button>
+      </Link>
 
-      <div
-        className={`absolute top-full right-0 pt-4 transition-all duration-300 ${
-          profileOpen
-            ? "opacity-100 visible translate-y-0"
-            : "opacity-0 invisible translate-y-3"
-        }`}
-      >
-        <div className="min-w-[190px] rounded-2xl border border-black/10 bg-white p-3 shadow-[0_15px_40px_rgba(0,0,0,0.18)]">
-          {profileOptions.map((item, index) => (
-            <Link
-              key={index}
-              href={item.link}
-              className="block rounded-xl px-4 py-3 text-[15px] font-medium text-[#111] transition-all duration-300 hover:bg-[#f6f6f6] hover:pl-5"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Dropdown removed - ab sirf link hai */}
     </div>
   );
 }
@@ -181,9 +171,11 @@ function DesktopNav({
           <FiSearch className="ml-2 text-white transition-colors duration-300 group-focus-within:text-black" />
         </div>
 
-        <button className="group rounded-full border border-transparent p-2 transition-all duration-300 hover:border-white hover:bg-white hover:shadow-[0_0_0_3px_rgba(255,255,255,0.15)]">
-          <FiHeart className="text-xl text-white transition-colors duration-300 group-hover:text-[#990027]" />
-        </button>
+        <Link href={iconLinks.wishlist}>
+          <button className="group rounded-full border border-transparent p-2 transition-all duration-300 hover:border-white hover:bg-white hover:shadow-[0_0_0_3px_rgba(255,255,255,0.15)]">
+            <FiHeart className="text-xl text-white transition-colors duration-300 group-hover:text-[#990027]" />
+          </button>
+        </Link>
 
         <ProfileDropdown
           profileOpen={profileOpen}
@@ -191,7 +183,9 @@ function DesktopNav({
           iconColor="text-white"
         />
 
-        <FiShoppingBag className="text-xl cursor-pointer text-white" />
+        <Link href={iconLinks.cart}>
+          <FiShoppingBag className="text-xl cursor-pointer text-white" />
+        </Link>
       </div>
     </div>
   );
@@ -214,7 +208,9 @@ function MobileTopBar({ setMobileMenu, isTransparentState }) {
         />
       </Link>
 
-      <FiShoppingBag className="text-xl" />
+      <Link href={iconLinks.cart}>
+        <FiShoppingBag className="text-xl" />
+      </Link>
     </div>
   );
 }
@@ -413,37 +409,25 @@ export default function Header() {
               );
             })}
 
-            {/* MOBILE PROFILE */}
-            <div className="border-b border-white/10">
-              <button
-                onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
-                className="w-full flex items-center justify-between py-3"
-              >
-                <span>Profile</span>
-                {mobileProfileOpen ? <FiChevronUp /> : <FiChevronDown />}
-              </button>
+            {/* MOBILE PROFILE - Ab sirf link hai dropdown nahi */}
+            <Link
+              href="/profile"
+              className="py-3 border-b border-white/10 flex items-center justify-between"
+              onClick={() => setMobileMenu(false)}
+            >
+              <span>Profile</span>
+              <FiUser className="text-lg" />
+            </Link>
 
-              <div
-                className={`grid transition-all duration-300 overflow-hidden ${
-                  mobileProfileOpen ? "grid-rows-[1fr] pb-3" : "grid-rows-[0fr]"
-                }`}
-              >
-                <div className="overflow-hidden">
-                  <div className="ml-3 mt-1 flex flex-col gap-2 rounded-xl bg-white/5 p-3">
-                    {profileOptions.map((item, index) => (
-                      <Link
-                        key={index}
-                        href={item.link}
-                        onClick={() => setMobileMenu(false)}
-                        className="rounded-lg px-3 py-2 text-[15px] text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* MOBILE WISHLIST LINK */}
+            <Link
+              href={iconLinks.wishlist}
+              className="py-3 border-b border-white/10 flex items-center justify-between"
+              onClick={() => setMobileMenu(false)}
+            >
+              <span>Wishlist</span>
+              <FiHeart className="text-lg" />
+            </Link>
           </nav>
         </div>
       </div>

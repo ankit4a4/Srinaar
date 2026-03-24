@@ -76,7 +76,7 @@ export default function RecommendedProducts() {
                 </div>
 
                 {/* Products Grid */}
-              <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-6">
+              <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-1 lg:grid-cols-4 lg:gap-x-6">
           {products.map((product) => (
             <Link
               key={product.id}
@@ -85,7 +85,7 @@ export default function RecommendedProducts() {
             >
               <div className="overflow-hidden rounded-[20px]">
                 {/* Image Wrapper */}
-                <div className="relative h-[240px] overflow-hidden rounded-[20px] bg-[#f6f1ed] sm:h-[300px] lg:h-[335px]">
+                <div className="relative h-[350px] md:h-[240px] overflow-hidden rounded-[20px] bg-[#f6f1ed] sm:h-[300px] lg:h-[335px]">
                   <Image
                     src={product.image}
                     alt={product.name}
