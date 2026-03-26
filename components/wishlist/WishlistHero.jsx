@@ -2,7 +2,7 @@ import React from "react";
 
 const WishlistHero = () => {
   return (
-    <section className="w-full bg-[#d9d9d9] py-12 md:py-16 flex items-center justify-center border-b border-[#990027]/10">
+    <section className="w-full bg-[#d9d9d9] mt-10 py-12 md:py-16 flex items-center justify-center border-b border-[#990027]/10">
       <div className="text-center">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif text-gray-800">
           Explore your{" "}

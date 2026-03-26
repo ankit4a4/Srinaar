@@ -1,9 +1,9 @@
 export default function ContactForm() {
   return (
-    <section className=" py-16 md:py-24 px-4">
+    <section className="bg-white py-16 md:py-24  px-4">
       <div className="max-w-5xl mx-auto">
         {/* Heading */}
-        <div className="text-center mb-12">
+        <div className="text-center md:mt-[100px] mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#2e1f1f]">
             Get In Touch
           </h2>

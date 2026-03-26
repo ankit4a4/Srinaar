@@ -124,9 +124,7 @@ export default function JoinSection() {
                       </span>
                     </div>
 
-                    <p className="mt-6 text-center text-[18px] text-[#1d1d1d]">
-                      {isLogin ? "Sign In with Email" : "Create an Account"}
-                    </p>
+                   
 
                     {isLogin ? (
                       <div className="mt-5 space-y-4">

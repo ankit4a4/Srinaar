@@ -51,7 +51,7 @@ export default function TopOfferBar() {
         }
 
         .animate-marquee {
-          animation: marquee 18s linear infinite;
+          animation: marquee 28s linear infinite;
         }
       `}</style>
     </>
