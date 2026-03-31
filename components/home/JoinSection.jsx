@@ -114,7 +114,7 @@ export default function JoinSection() {
 
                     <p className="mt-2 text-center text-[13px] text-[#666]">
                       {isLogin
-                        ? "Login to continue your shopping journey."
+                        ? "Get 50% OFF on your first order"
                         : "Sign up and unlock exclusive offers and faster checkout."}
                     </p>
 
@@ -230,7 +230,7 @@ export default function JoinSection() {
                   initial={{ scale: 1.08 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-top"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#980022]/85 via-[#980022]/20 to-black/10" />
