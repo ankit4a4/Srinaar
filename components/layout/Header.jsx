@@ -12,10 +12,13 @@ import {
   FiX,
   FiChevronDown,
   FiChevronUp,
+  FiLogOut,
 } from "react-icons/fi";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
 import logo2 from "../../assets/logo2.png";
+import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
 
 const menuItems = [
   { name: "Home", link: "/" },
@@ -95,20 +98,118 @@ function ProfileDropdown({
   setProfileOpen,
   iconColor = "text-white",
 }) {
+  const { user, logout } = useAuth();
+
   return (
     <div
       className="relative"
       onMouseEnter={() => setProfileOpen(true)}
       onMouseLeave={() => setProfileOpen(false)}
     >
-      <Link href="/profile">
-        <button className="flex items-center gap-1 cursor-pointer">
-          <FiUser className={`text-xl ${iconColor}`} />
-        </button>
-      </Link>
+      <button className="flex items-center gap-1 cursor-pointer">
+        <FiUser className={`text-xl ${iconColor}`} />
+      </button>
 
-      {/* Dropdown removed - ab sirf link hai */}
+      <div
+        className={`absolute top-full right-0 pt-4 transition-all duration-300 ${
+          profileOpen
+            ? "opacity-100 visible translate-y-0"
+            : "opacity-0 invisible translate-y-3"
+        }`}
+      >
+        <div className="min-w-[200px] rounded-2xl border border-black/10 bg-white p-3 shadow-[0_15px_40px_rgba(0,0,0,0.18)]">
+          {user ? (
+            <>
+              <div className="px-4 py-2 border-b border-gray-100 mb-2">
+                <p className="text-sm font-semibold text-[#2a1a14]">
+                  {user.name || user.email}
+                </p>
+                <p className="text-xs text-gray-500">{user.email}</p>
+              </div>
+              <Link
+                href="/orders"
+                className="block rounded-xl px-4 py-2 text-[15px] font-medium text-[#111] transition-all duration-300 hover:bg-[#f6f6f6]"
+              >
+                My Orders
+              </Link>
+              <button
+                onClick={logout}
+                className="w-full text-left rounded-xl px-4 py-2 text-[15px] font-medium text-red-600 transition-all duration-300 hover:bg-[#f6f6f6] flex items-center gap-2"
+              >
+                <FiLogOut size={16} />
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="block rounded-xl px-4 py-2 text-[15px] font-medium text-[#111] transition-all duration-300 hover:bg-[#f6f6f6]"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="block rounded-xl px-4 py-2 text-[15px] font-medium text-[#111] transition-all duration-300 hover:bg-[#f6f6f6]"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
     </div>
+  );
+}
+
+function MobileProfileLinks({ setMobileMenu }) {
+  const { user, logout } = useAuth();
+
+  if (user) {
+    return (
+      <>
+        <div className="py-3 border-b border-white/10">
+          <p className="font-semibold">{user.name || user.email}</p>
+          <p className="text-sm text-white/70">{user.email}</p>
+        </div>
+        <Link
+          href="/orders"
+          className="py-3 border-b border-white/10"
+          onClick={() => setMobileMenu(false)}
+        >
+          My Orders
+        </Link>
+        <button
+          onClick={() => {
+            logout();
+            setMobileMenu(false);
+          }}
+          className="py-3 border-b border-white/10 text-left text-red-300 flex items-center gap-2"
+        >
+          <FiLogOut size={16} />
+          Logout
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Link
+        href="/login"
+        className="py-3 border-b border-white/10"
+        onClick={() => setMobileMenu(false)}
+      >
+        Login
+      </Link>
+      <Link
+        href="/signup"
+        className="py-3 border-b border-white/10"
+        onClick={() => setMobileMenu(false)}
+      >
+        Sign Up
+      </Link>
+    </>
   );
 }
 
@@ -119,6 +220,8 @@ function DesktopNav({
   setProfileOpen,
   isTransparentState,
 }) {
+  const { cartCount } = useCart();
+
   return (
     <div className="hidden md:flex items-center justify-between gap-6">
       {/* LEFT */}
@@ -183,8 +286,13 @@ function DesktopNav({
           iconColor="text-white"
         />
 
-        <Link href={iconLinks.cart}>
+        <Link href={iconLinks.cart} className="relative">
           <FiShoppingBag className="text-xl cursor-pointer text-white" />
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-white text-[#990027] text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">
+              {cartCount}
+            </span>
+          )}
         </Link>
       </div>
     </div>
@@ -192,6 +300,8 @@ function DesktopNav({
 }
 
 function MobileTopBar({ setMobileMenu, isTransparentState }) {
+  const { cartCount } = useCart();
+
   return (
     <div className="flex md:hidden items-center justify-between text-white">
       <FiMenu
@@ -208,8 +318,13 @@ function MobileTopBar({ setMobileMenu, isTransparentState }) {
         />
       </Link>
 
-      <Link href={iconLinks.cart}>
+      <Link href={iconLinks.cart} className="relative">
         <FiShoppingBag className="text-xl" />
+        {cartCount > 0 && (
+          <span className="absolute -top-2 -right-2 bg-white text-[#990027] text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">
+            {cartCount}
+          </span>
+        )}
       </Link>
     </div>
   );
@@ -409,15 +524,8 @@ export default function Header() {
               );
             })}
 
-            {/* MOBILE PROFILE - Ab sirf link hai dropdown nahi */}
-            <Link
-              href="/profile"
-              className="py-3 border-b border-white/10 flex items-center justify-between"
-              onClick={() => setMobileMenu(false)}
-            >
-              <span>Profile</span>
-              <FiUser className="text-lg" />
-            </Link>
+            {/* MOBILE PROFILE */}
+            <MobileProfileLinks setMobileMenu={setMobileMenu} />
 
             {/* MOBILE WISHLIST LINK */}
             <Link
