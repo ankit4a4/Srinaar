@@ -9,6 +9,7 @@ import {
   FiChevronUp,
 } from 'react-icons/fi';
 import { useCart } from '../../contexts/CartContext';
+import toast from 'react-hot-toast';
 
 export default function SingleProduct({ product }) {
   const [selectedImage, setSelectedImage] = useState(product.images?.[0] || '');
@@ -21,8 +22,12 @@ export default function SingleProduct({ product }) {
   const images = product.images?.length ? product.images : [];
 
   const handleAddToCart = async () => {
-    await addToCart(product, 1, selectedSize, selectedColor);
-    alert('Added to cart!');
+    try {
+      await addToCart(product, 1, selectedSize, selectedColor);
+      toast.success('Added to cart successfully!');
+    } catch (error) {
+      toast.error('Failed to add to cart! Please try again.');
+    }
   };
 
   return (
@@ -123,6 +128,15 @@ export default function SingleProduct({ product }) {
                     <FiChevronDown className="text-[14px]" />
                   )}
                 </button>
+                {showSizeGuide && product.sizeGuideImage && (
+                  <div className="mt-4">
+                    <img
+                      src={product.sizeGuideImage}
+                      alt="Size Guide"
+                      className="w-full max-w-md rounded-lg border border-[#cbbfb0]"
+                    />
+                  </div>
+                )}
               </div>
             )}
 

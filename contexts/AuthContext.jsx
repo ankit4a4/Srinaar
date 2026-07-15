@@ -34,8 +34,18 @@ export function AuthProvider({ children }) {
     return data;
   };
 
-  const signup = async (email, password, name) => {
-    const data = await api.post('/auth/signup', { email, password, name });
+  const sendOTP = async (email, name) => {
+    const data = await api.post('/auth/send-otp', { email, name });
+    return data;
+  };
+
+  const verifyOTP = async (email, otp) => {
+    const data = await api.post('/auth/verify-otp', { email, otp });
+    return data;
+  };
+
+  const signup = async (email, password, name, otp) => {
+    const data = await api.post('/auth/signup', { email, password, name, otp });
     if (data.user) {
       setUser(data.user);
     }
@@ -48,7 +58,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, checkAuth }}>
+    <AuthContext.Provider value={{ user, loading, login, sendOTP, verifyOTP, signup, logout, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );

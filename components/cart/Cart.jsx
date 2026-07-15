@@ -3,21 +3,41 @@
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { useMemo } from "react";
 import { useCart } from "../../contexts/CartContext";
+import toast from "react-hot-toast";
 
 export default function Cart() {
   const { cart, updateCartItem, removeFromCart, loading } = useCart();
 
-  const handleIncrease = (itemId) => {
+  const handleIncrease = async (itemId) => {
     const item = cart.items.find(i => i._id === itemId);
     if (item) {
-      updateCartItem(itemId, item.quantity + 1);
+      try {
+        await updateCartItem(itemId, item.quantity + 1);
+        toast.success('Quantity increased!');
+      } catch (error) {
+        toast.error('Failed to update quantity!');
+      }
     }
   };
 
-  const handleDecrease = (itemId) => {
+  const handleDecrease = async (itemId) => {
     const item = cart.items.find(i => i._id === itemId);
     if (item && item.quantity > 1) {
-      updateCartItem(itemId, item.quantity - 1);
+      try {
+        await updateCartItem(itemId, item.quantity - 1);
+        toast.success('Quantity decreased!');
+      } catch (error) {
+        toast.error('Failed to update quantity!');
+      }
+    }
+  };
+
+  const handleRemove = async (itemId) => {
+    try {
+      await removeFromCart(itemId);
+      toast.success('Item removed from cart!');
+    } catch (error) {
+      toast.error('Failed to remove item!');
     }
   };
 
@@ -85,7 +105,7 @@ export default function Cart() {
                     {/* Product */}
                     <div className="flex gap-4">
                       <button
-                        onClick={() => removeFromCart(item._id)}
+                        onClick={() => handleRemove(item._id)}
                         className="mt-1 h-9 w-9 shrink-0 rounded-full border border-[#e9d8d0] text-[#4b1e1e] transition hover:border-[#990027] hover:bg-[#fff4f7] hover:text-[#990027]"
                       >
                         <FiX className="mx-auto text-[16px]" />

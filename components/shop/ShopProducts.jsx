@@ -5,6 +5,7 @@ import { FiChevronDown, FiHeart, FiX, FiShoppingCart } from "react-icons/fi";
 import Link from "next/link";
 import { api } from "../../utils/api";
 import { useCart } from "../../contexts/CartContext";
+import toast from "react-hot-toast";
 
 const categoryOptions = [
   "Festive Lehenga",
@@ -350,10 +351,10 @@ export default function ShopProducts() {
                       e.preventDefault();
                       try {
                         await addToCart(product, 1, product.sizes?.[0], product.colors?.[0]);
-                        alert('Added to cart!');
+                        toast.success('Added to cart!');
                       } catch (err) {
                         console.error('Add to cart failed:', err);
-                        alert('Failed to add to cart');
+                        toast.error('Failed to add to cart');
                       }
                     }}
                     className="mt-4 w-full flex items-center justify-center gap-2 rounded-full bg-[#990027] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#7f1026]"
