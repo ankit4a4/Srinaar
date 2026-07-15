@@ -1,5 +1,5 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shreegar-backend.onrender.com/api';
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shreegar-backend.onrender.com/api';
 
 const VISITOR_TOKEN_KEY = 'visitor_token';
 
