@@ -2,14 +2,12 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shreegar-backend.onrender.com/api';
 
 const VISITOR_TOKEN_KEY = 'visitor_token';
-
 class ApiError extends Error {
   constructor(message, status) {
     super(message);
     this.status = status;
   }
 }
-
 // Get visitor token from localStorage (client-side only)
 function getVisitorToken() {
   if (typeof window === 'undefined') return null;

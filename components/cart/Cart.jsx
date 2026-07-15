@@ -3,9 +3,13 @@
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { useMemo } from "react";
 import { useCart } from "../../contexts/CartContext";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../contexts/AuthContext";
 import toast from "react-hot-toast";
 
 export default function Cart() {
+  const router = useRouter();
+  const { user } = useAuth();
   const { cart, updateCartItem, removeFromCart, loading } = useCart();
 
   const handleIncrease = async (itemId) => {
@@ -249,8 +253,21 @@ export default function Cart() {
               </span>
             </div>
 
-            <button className="mt-6 w-full rounded-full bg-[#990027] px-6 py-4 text-sm font-semibold text-white transition duration-300 hover:bg-[#7f0021]">
-              Proceed to Checkout
+            <button 
+              onClick={() => {
+                if (!user) {
+                  toast.error('Please login to proceed');
+                  router.push('/login?redirect=/checkout');
+                } else if (cart.items.length === 0) {
+                  toast.error('Your cart is empty');
+                } else {
+                  router.push('/checkout');
+                }
+              }}
+              disabled={cart.items.length === 0}
+              className="mt-6 w-full rounded-full bg-[#990027] px-6 py-4 text-sm font-semibold text-white transition duration-300 hover:bg-[#7f0021] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {user ? 'Proceed to Checkout' : 'Login to Checkout'}
             </button>
           </div>
         </div>
